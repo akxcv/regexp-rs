@@ -1,18 +1,13 @@
-import * as wasm from "regex-rs";
+import { RegExp } from "regex-rs";
 
-window.test = wasm.regex_test
-const JsRegExp = window.RegExp
-
-class RustRegExp {
-    constructor(pattern) {
-        this.pattern = pattern
-
-        // TODO: For now, delegate missing methods to native a native RegExp instance.
-    }
-
-    test(str) {
-        return wasm.regex_test(this.pattern, str)
-    }
+function RustRegExp (pattern) {
+    this.re = RegExp.new(pattern)
 }
 
-window.RegExp = RustRegEx
+RustRegExp.prototype.test = function test(s) {
+    return this.re.test(s)
+}
+
+const JsRegExp = window.RegExp
+
+window.RegExp = RustRegExp

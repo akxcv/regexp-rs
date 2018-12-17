@@ -24,7 +24,19 @@ extern {
 }
 
 #[wasm_bindgen]
-pub fn regex_test(pattern: &str, str: &str) -> bool {
-    let re = Regex::new(pattern).unwrap();
-    re.is_match(str)
+pub struct RegExp {
+    re: Regex,
+}
+
+#[wasm_bindgen]
+impl RegExp {
+    pub fn new(pattern: &str) -> Self {
+        Self {
+            re: Regex::new(pattern).unwrap(),
+        }
+    }
+
+    pub fn test(&self, s: &str) -> bool {
+        self.re.is_match(s)
+    }
 }
